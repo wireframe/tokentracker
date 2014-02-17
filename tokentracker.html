@@ -12,7 +12,7 @@
 </body>
 
 <template name="tokens">
-  <ul class="tokens">
+  <ul class="tokens list-unstyled">
     {{#each tokens}}
       {{> token}}
     {{/each}}
@@ -21,15 +21,17 @@
 
 <template name="token">
   <li class="token" id="{{_id}}">
-    <div class="col-lg-4">
-      <h1>{{name}}</h1>
-      <div>initiative: {{initiative}}</div>
-      <div>damage: {{damage}}</div>
-      <div>statuses: </div>
-    </div>
-    <div class="col-lg-1">
-      <a href="#" class="clone" title="clone"><span class="icon icon-random"</span></a>
-      <a href="#" class="remove" title="remove"><span class="icon icon-remove"></span></a>
+    <div class="row">
+      <div class="col-lg-4">
+        <h1>{{name}}</h1>
+        <div>initiative: {{initiative}}</div>
+        <div>damage: {{damage}}</div>
+        <div>statuses: </div>
+      </div>
+      <div class="col-lg-1">
+        <a href="#" class="clone" title="clone"><span class="glyphicon glyphicon-random"</span></a>
+        <a href="#" class="remove" title="remove"><span class="glyphicon glyphicon-remove"></span></a>
+      </div>
     </div>
   </li>
 </template>
