@@ -5,13 +5,25 @@ if (Meteor.isClient) {
     return Tokens.find({}, {sort: {initiative: -1}});
   };
 
+  Template.newtokenform.events({
+    'submit #new_token': function(e) {
+      e.preventDefault();
+      var $form = $(e.target);
+      Tokens.insert({
+        label: $form.find('input[name=label]').val(),
+        initiative: 0
+      });
+      $form.trigger('reset');
+    }
+  });
+
   Template.token.events({
     'click .remove': function() {
       Tokens.remove(this._id);
     },
     'click .clone': function() {
       Tokens.insert({
-        name: this.name,
+        label: this.label,
         initiative: this.initiative
       });
     }
@@ -22,17 +34,17 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
   Meteor.startup(function () {
     if (Tokens.find().count() === 0) {
-      var names = [
+      var labels = [
         "Leoven",
         "Jarvis",
         "Ghoul"
       ];
-      for (var i = 0; i < names.length; i++) {
+      for (var i = 0; i < labels.length; i++) {
         var initiative = Math.floor((Math.random() * 20) + 1);
         Tokens.insert({
-          name: names[i],
+          label: labels[i],
           initiative: initiative
-        })
+        });
       }
     }
   });
