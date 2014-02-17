@@ -7,8 +7,14 @@
 
 <body>
   <div class="container">
-    {{> newtokenform}}
-    {{> tokens}}
+    <div class="row">
+      <div class="col-lg-6">
+        {{> tokens}}
+      </div>
+      <div class="col-lg-3">
+        {{> newtokenform}}
+      </div>
+    </div>
   </div>
 </body>
 
@@ -23,7 +29,7 @@
 <template name="token">
   <li class="token" id="{{_id}}">
     <div class="row">
-      <div class="col-lg-4">
+      <div class="col-lg-10">
         <h1>{{label}}</h1>
         <dl class="dl-horizontal">
           <dt>initiative</dt>
@@ -41,9 +47,12 @@
 </template>
 
 <template name="newtokenform">
-  <form id="new_token" class="form-inline">
-    <label for="label">Token Label:</label>
-    <input type="text" name="label" class="form-control" />
-    <button type="Submit" class="btn btn-success">Add Token <span class="glyphicon glyphicon-plus"></span></button>
+  <form id="new_token" class="form">
+    <h2>Add New Token</h2>
+    <div class="form-group">
+      <label for="label">Token Label</label>
+      <input type="text" name="label" class="form-control" />
+    </div>
+    <button type="Submit" class="btn btn-primary">Add Token <span class="glyphicon glyphicon-plus"></span></button>
   </form>
 </template>
