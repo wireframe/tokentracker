@@ -1,9 +1,14 @@
 <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>tokentracker</title>
 </head>
 
 <body>
-  {{> tokens}}
+  <div class="container">
+    {{> tokens}}
+  </div>
 </body>
 
 <template name="tokens">
@@ -16,11 +21,15 @@
 
 <template name="token">
   <li class="token" id="{{_id}}">
-    <h1>{{name}}</h1>
-    <div>initiative: {{initiative}}</div>
-    <div>damage: {{damage}}</div>
-    <div>statuses: </div>
-    <a href="#" class="clone">clone</a>
-    <a href="#" class="remove">remove</a>
+    <div class="col-lg-4">
+      <h1>{{name}}</h1>
+      <div>initiative: {{initiative}}</div>
+      <div>damage: {{damage}}</div>
+      <div>statuses: </div>
+    </div>
+    <div class="col-lg-1">
+      <a href="#" class="clone" title="clone"><span class="icon icon-random"</span></a>
+      <a href="#" class="remove" title="remove"><span class="icon icon-remove"></span></a>
+    </div>
   </li>
 </template>
