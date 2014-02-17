@@ -13,19 +13,23 @@ if (Meteor.isClient) {
     'submit #new_token': function(e) {
       e.preventDefault();
       var $form = $(e.target);
+      var initiative = $form.find('input[name=initiative]').val() || 0;
       Tokens.insert({
         label: $form.find('input[name=label]').val(),
-        initiative: $form.find('input[name=initiative]').val()
+        initiative: initiative
       });
       $form.trigger('reset');
+      $form.find('input[name=label]').focus();
     }
   });
 
   Template.token.events({
-    'click .remove': function() {
+    'click .remove': function(e) {
+      e.preventDefault();
       Tokens.remove(this._id);
     },
-    'click .clone': function() {
+    'click .clone': function(e) {
+      e.preventDefault();
       Tokens.insert({
         label: this.label,
         initiative: this.initiative
