@@ -5,6 +5,10 @@ if (Meteor.isClient) {
     return Tokens.find({}, {sort: {initiative: -1}});
   };
 
+  Template.token.label_preview = function() {
+    return this.label[0].toUpperCase();
+  };
+
   Template.newtokenform.events({
     'submit #new_token': function(e) {
       e.preventDefault();
