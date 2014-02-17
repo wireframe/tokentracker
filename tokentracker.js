@@ -15,7 +15,7 @@ if (Meteor.isClient) {
       var $form = $(e.target);
       Tokens.insert({
         label: $form.find('input[name=label]').val(),
-        initiative: 0
+        initiative: $form.find('input[name=initiative]').val()
       });
       $form.trigger('reset');
     }
