@@ -1,13 +1,5 @@
 /* CSS declarations go here */
 
-.token-preview {
-  display: inline-block;
-  height: 40px;
-  width: 40px;
-  border-radius: 40px;
-  font-size: 24px;
-  background-color: #7109AA;
-  color: white;
-  text-align: center;
-  padding-top: 8px;
+.token h1 .label {
+  border-radius: 30px;
 }

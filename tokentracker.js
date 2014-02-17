@@ -5,6 +5,15 @@ if (Meteor.isClient) {
     return Tokens.find({}, {sort: {initiative: -1}});
   };
 
+  Template.tokens.rendered = function() {
+    var $list = $(this.lastNode);
+    if ($list.data().sortable == true) {
+      return;
+    }
+    $list.data('sortable', true);
+    $list.sortable();
+  };
+
   Template.token.label_preview = function() {
     return this.label[0].toUpperCase();
   };
