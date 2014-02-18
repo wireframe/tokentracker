@@ -2,4 +2,5 @@
 
 .token h1 .label {
   border-radius: 30px;
+  cursor: move;
 }

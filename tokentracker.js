@@ -1,8 +1,14 @@
 Tokens = new Meteor.Collection("tokens");
 
+SimpleRelationalRanks = {
+  beforeFirst: function(firstRank) { return firstRank - 1; },
+  between: function(beforeRank, afterRank) { return (beforeRank + afterRank) / 2; },
+  afterLast: function(lastRank) { return lastRank + 1; }
+};
+
 if (Meteor.isClient) {
   Template.tokens.tokens = function () {
-    return Tokens.find({}, {sort: {initiative: -1}});
+    return Tokens.find({}, {sort: {rank: 1}});
   };
 
   Template.tokens.rendered = function() {
@@ -11,7 +17,26 @@ if (Meteor.isClient) {
       return;
     }
     $list.data('sortable', true);
-    $list.sortable();
+    $list.sortable({
+      stop: function(e, ui) {
+        var el = ui.item;
+        var before = ui.item.prev();
+        var after = ui.item.next();
+        var newRank;
+        if (!before.length) {
+          newRank = SimpleRelationalRanks.beforeFirst(after.data().rank);
+        } else if (!after.length) {
+          newRank = SimpleRelationalRanks.afterLast(before.data().rank);
+        } else {
+          newRank = SimpleRelationalRanks.between(before.data().rank, after.data().rank);
+        }
+        Tokens.update(el.attr('id'), {$set: {rank: newRank}});
+
+        // FIXME: meteor is adding in an extra element after the update completes
+        // should not need to clear out this local element
+        el.remove();
+      }
+    });
   };
 
   Template.token.label_preview = function() {
@@ -25,7 +50,8 @@ if (Meteor.isClient) {
       var initiative = $form.find('input[name=initiative]').val() || 0;
       Tokens.insert({
         label: $form.find('input[name=label]').val(),
-        initiative: initiative
+        initiative: initiative,
+        rank: -initiative
       });
       $form.trigger('reset');
       $form.find('input[name=label]').focus();
