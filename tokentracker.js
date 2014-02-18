@@ -48,10 +48,12 @@ if (Meteor.isClient) {
       e.preventDefault();
       var $form = $(e.target);
       var initiative = $form.find('input[name=initiative]').val() || 0;
+      // TODO: ensure unique rank if multiple initiatives found.
+      var rank = -initiative
       Tokens.insert({
         label: $form.find('input[name=label]').val(),
         initiative: initiative,
-        rank: -initiative
+        rank: rank
       });
       $form.trigger('reset');
       $form.find('input[name=label]').focus();
@@ -65,9 +67,12 @@ if (Meteor.isClient) {
     },
     'click .clone': function(e) {
       e.preventDefault();
+      //TODO: ensure unique rank;
+      var newRank = this.rank + 0.1;
       Tokens.insert({
         label: this.label,
-        initiative: this.initiative
+        initiative: this.initiative,
+        rank: newRank
       });
     }
   });
