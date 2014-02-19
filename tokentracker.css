@@ -1,5 +1,8 @@
 /* CSS declarations go here */
 
+.token h1 {
+  margin-top: 5px;
+}
 .token h1 .label {
   border-radius: 30px;
   cursor: move;
