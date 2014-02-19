@@ -20,6 +20,10 @@ Tokens.findNextAvailableRank = function(requestedRank) {
   return nextAvailableRank;
 };
 
+Tokens.counterForLabel = function(label) {
+  return Tokens.find({label: label}).count() + 1;
+};
+
 SimpleRelationalRanks = {
   beforeFirst: function(firstRank) { return firstRank - 1; },
   between: function(beforeRank, afterRank) { return (beforeRank + afterRank) / 2; },
@@ -63,16 +67,22 @@ if (Meteor.isClient) {
     return this.label[0].toUpperCase();
   };
 
+  Template.token.hasCounter = function() {
+    return this.counter > 1;
+  };
+
   Template.newtokenform.events({
     'submit #new_token': function(e) {
       e.preventDefault();
       var $form = $(e.target);
       var initiative = $form.find('input[name=initiative]').val() || 1;
       var rank = Tokens.findNextAvailableRank(-initiative);
+      var label = $form.find('input[name=label]').val();
       Tokens.insert({
-        label: $form.find('input[name=label]').val(),
+        label: label,
         initiative: initiative,
-        rank: rank
+        rank: rank,
+        counter: Tokens.counterForLabel(label)
       });
       $form.trigger('reset');
       $form.find('input[name=label]').focus();
@@ -90,7 +100,8 @@ if (Meteor.isClient) {
       Tokens.insert({
         label: this.label,
         initiative: this.initiative,
-        rank: newRank
+        rank: newRank,
+        counter: Tokens.counterForLabel(this.label)
       });
     }
   });

@@ -28,10 +28,10 @@
 
 <template name="token">
   <li class="token" id="{{_id}}" data-rank="{{rank}}">
-    <div class="row">
+    <div class="row panel">
       <div class="col-xs-8">
         <h1>
-          <span class="label label-primary">{{label_preview}}<sup>1</sup></span>
+          <span class="label label-primary">{{label_preview}}{{#if hasCounter}}<sup>{{counter}}</sup>{{/if}}</span>
         {{label}}
         </h1>
         <dl class="dl-horizontal">
