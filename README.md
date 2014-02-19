@@ -2,6 +2,15 @@
 
 > realtime collaboration app for tracking board game tokens
 
+## Features
+
+* Realtime collaborative UI.  Changes are instantly pushed to all people currently viewing the page
+* Responsive layout supports mobile, tablet and desktop
+* Drag/drop sortable list of tokens to change ordering on the fly
+* Quickly track amount of damage taken on any token
+* Simple cloning feature to track multiple tokens of same type
+* TODO: track statuses for each token
+
 ## Running Locally
 
 Using meteor:
