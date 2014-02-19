@@ -82,7 +82,8 @@ if (Meteor.isClient) {
         label: label,
         initiative: initiative,
         rank: rank,
-        counter: Tokens.counterForLabel(label)
+        counter: Tokens.counterForLabel(label),
+        damage: 0
       });
       $form.trigger('reset');
       $form.find('input[name=label]').focus();
@@ -101,8 +102,14 @@ if (Meteor.isClient) {
         label: this.label,
         initiative: this.initiative,
         rank: newRank,
-        counter: Tokens.counterForLabel(this.label)
+        counter: Tokens.counterForLabel(this.label),
+        damage: 0
       });
+    },
+    'click .addDamage': function(e) {
+      e.preventDefault();
+      var damageIncrease = parseInt(prompt("Add damage to token", "0"));
+      Tokens.update(this._id, {$inc: {damage: damageIncrease}});
     }
   });
 }
