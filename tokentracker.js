@@ -1,5 +1,25 @@
 Tokens = new Meteor.Collection("tokens");
 
+Tokens.findNextAvailableRank = function(requestedRank) {
+  var allTokens = Tokens.find({}, {sort: {rank: 1}}).fetch();
+  var ranks = _.map(allTokens, function(token) {
+    return token.rank;
+  });
+  if (!_.contains(ranks, requestedRank)) {
+    return requestedRank;
+  }
+  var nextAvailableRank = null;
+  if (_.last(ranks) === requestedRank) {
+    nextAvailableRank = SimpleRelationalRanks.afterLast(requestedRank);
+  } else {
+    var rankRange = _.first(_.reject(ranks, function(tokenRank) {
+      return tokenRank < requestedRank;
+    }), 2);
+    nextAvailableRank = SimpleRelationalRanks.between(rankRange[0], rankRange[1]);
+  }
+  return nextAvailableRank;
+};
+
 SimpleRelationalRanks = {
   beforeFirst: function(firstRank) { return firstRank - 1; },
   between: function(beforeRank, afterRank) { return (beforeRank + afterRank) / 2; },
@@ -47,9 +67,8 @@ if (Meteor.isClient) {
     'submit #new_token': function(e) {
       e.preventDefault();
       var $form = $(e.target);
-      var initiative = $form.find('input[name=initiative]').val() || 0;
-      // TODO: ensure unique rank if multiple initiatives found.
-      var rank = -initiative
+      var initiative = $form.find('input[name=initiative]').val() || 1;
+      var rank = Tokens.findNextAvailableRank(-initiative);
       Tokens.insert({
         label: $form.find('input[name=label]').val(),
         initiative: initiative,
@@ -67,8 +86,7 @@ if (Meteor.isClient) {
     },
     'click .clone': function(e) {
       e.preventDefault();
-      //TODO: ensure unique rank;
-      var newRank = this.rank + 0.1;
+      var newRank = Tokens.findNextAvailableRank(this.rank);
       Tokens.insert({
         label: this.label,
         initiative: this.initiative,
