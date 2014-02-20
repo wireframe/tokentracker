@@ -108,7 +108,7 @@ if (Meteor.isClient) {
     },
     'click .addDamage': function(e) {
       e.preventDefault();
-      var damageIncrease = parseInt(prompt("Add damage to token", "0"));
+      var damageIncrease = parseInt(prompt("Add damage to token", "0")) || 0;
       Tokens.update(this._id, {$inc: {damage: damageIncrease}});
     }
   });
